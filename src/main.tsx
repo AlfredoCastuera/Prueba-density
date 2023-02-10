@@ -1,42 +1,45 @@
-import React, { Children } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
+  Navigate
 } from "react-router-dom";
-import { store } from './Redux/store'
+import { store, persistor } from './Redux/store'
 import { Provider } from 'react-redux'
 
+import { PersistGate } from 'redux-persist/integration/react';
+
+// pages
+import MainLayout from './layouts/mainLayout';
 import Pokedex from './pages/Pokedex';
-import Counter from './pages/Counter'
 import PokemonDetail from './pages/PokemonDetail';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path:'/',
+    element: <MainLayout />,
+    children:[
+      {
+        path: '/',
+        element: <Navigate to="/pokedex"/>,
+      },
+      {
+        path:'/pokedex',
+        element: <Pokedex />,
+      },
+      {
+        path:'/pokedex/:name',
+        element: <PokemonDetail />
+      },
+    ],
   },
-  {
-    path:'/pokedex',
-    element: <Pokedex />,
-  },
-  {
-    path:'/pokedex/:name',
-    element: <PokemonDetail />
-  },
-  {
-    path:'/counter',
-    element: <Counter />
-  }
 ]);
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store} >
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
 )

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { getPokemon } from '../../services/pokemon'
+import { getPokemonByName } from '../../services/pokemon'
 import axios, { AxiosResponse } from 'axios'
 
 export interface CurrentPokemonState {
@@ -13,13 +12,18 @@ export interface CurrentPokemonState {
 const initialState: CurrentPokemonState = {
   currentPokemon: null,
   status: 'idle',
-  error: null,
+  error: null ,
 }
 
-// create a thunk function for featching the pokemon arry from the API
+// create a thunk function for fetching the pokemon array from the API
 
 export const fetchPokemonByURL = createAsyncThunk('pokemon/fetchPokemonByURL', async (pokemonURL:string) => {
   const response = await axios.get(pokemonURL);
+  return (response as AxiosResponse).data
+});
+
+export const fetchPokemonByName = createAsyncThunk('pokemon/fetchPokemonByName', async (name:string) => {
+  const response = await getPokemonByName(name);
   return (response as AxiosResponse).data
 });
 
@@ -37,8 +41,21 @@ export const CurrentPokemonSlice = createSlice({
       state.error = null,
       state.currentPokemon = action.payload
     })
-    builder.addCase(fetchPokemonByURL.rejected, (state,action) =>{
-      state.status = 'rejected',
+    builder.addCase(fetchPokemonByURL.rejected, (state,action) => {
+      state.status = 'rejected'
+      state.error = action.error.message as string
+    })
+
+    builder.addCase(fetchPokemonByName.pending, (state,action)=>{
+      state.status = 'loading'
+    })
+    builder.addCase(fetchPokemonByName.fulfilled, (state,action)=>{
+      state.status = 'succesed'
+      state.error = null,
+      state.currentPokemon = action.payload
+    })
+    builder.addCase(fetchPokemonByName.rejected, (state,action) =>{
+      state.status = 'rejected'
       state.error = action.error.message as string
     })
   }
@@ -46,7 +63,7 @@ export const CurrentPokemonSlice = createSlice({
 
 // Also export the selector callback
 export const selectCurrentPokemon = (state : RootState) => state.currentPokemon.currentPokemon;
-
+export const selectError = (state: RootState) => state.currentPokemon.error;
 // Action creators are generated for each case reducer function
 export const {  } = CurrentPokemonSlice.actions
 

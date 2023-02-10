@@ -1,0 +1,25 @@
+.pokemonDetail_card{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 1.4rem;
+  align-items: center;
+  gap:2rem;
+  margin-top: 5rem;
+  .pokemonDetail_header{
+    display:flex;
+    align-items:center;
+    gap: 1rem
+  }
+  .pokemonDetail_main{
+    display:flex;
+    align-items:center;
+    gap: 1rem
+  }
+  .pokemonDetail_footer{
+    display:flex;
+    align-items:center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+}
+
