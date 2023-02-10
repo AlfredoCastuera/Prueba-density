@@ -8,8 +8,10 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import { store } from './Redux/store'
+import { store, persistor } from './Redux/store'
 import { Provider } from 'react-redux'
+
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { createTheme, ThemeProvider } from '@mui/system';
 
@@ -36,10 +38,14 @@ export const router = createBrowserRouter([
   }
 ]);
 
+
+
 export const theme = createTheme()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store} >
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
 )

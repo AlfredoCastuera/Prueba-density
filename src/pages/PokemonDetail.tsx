@@ -24,7 +24,7 @@ const PokemonDetail = () => {
         <Avatar src={currentPokemon.sprites.front_default}  sx={{ width: 64, height: 64, bgcolor:theme.palette.primary.light }} />
         <Typography variant='h5' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
         {Array.isArray(types) && types.map((type)=>{
-          return (<Chip label={type} sx={{ bgcolor: generateRandomColorHex(), color: theme.palette.grey[100]}}/>)
+          return (<Chip label={type} sx={{ bgcolor: generateRandomColorHex(), color: theme.palette.grey[100]}} key={type}/>)
         })}
         <Typography variant='body1' color={theme.palette.primary.main}>Number: {currentPokemon.order}</ Typography>
         <Typography variant='body1' color={theme.palette.primary.main}>Height: {currentPokemon.height}</ Typography>
