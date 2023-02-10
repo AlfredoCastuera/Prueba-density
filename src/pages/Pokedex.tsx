@@ -36,12 +36,15 @@ const Pokedex = () => {
 
   return (
     <Container maxWidth="md" className={classes.pokedex_container}>
-      {currentPokemon && <main className={classes.pokedex_card}>
+      <main className={classes.pokedex_card}>
         <Paper elevation={3} className={classes.pokedex_paper}>
-          <Typography variant='h4' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
-          <img src={currentPokemon.sprites.front_default} alt={currentPokemon.name} />
+          {currentPokemon && <>
+            <Typography variant='h4' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
+            <img src={currentPokemon.sprites.front_default} alt={currentPokemon.name} />
+          </>
+          }
         </Paper>
-      </main>}
+      </main>
       <aside>
         <List className={classes.pokedex_list}>
           {Array.isArray(pokemon) && pokemon.map((current)=>{
