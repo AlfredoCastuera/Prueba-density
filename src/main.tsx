@@ -11,8 +11,9 @@ import {
 import { store } from './Redux/store'
 import { Provider } from 'react-redux'
 
-import Home from './pages/Home';
+import Pokedex from './pages/Pokedex';
 import Counter from './pages/Counter'
+import PokemonDetail from './pages/PokemonDetail';
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +21,12 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path:'/home',
-    element: <Home />
+    path:'/pokedex',
+    element: <Pokedex />,
+  },
+  {
+    path:'/pokedex/:name',
+    element: <PokemonDetail />
   },
   {
     path:'/counter',
