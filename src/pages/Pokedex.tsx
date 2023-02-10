@@ -28,11 +28,11 @@ const Pokedex = () => {
   const decrement = () => setCurrentPage(prev => prev-1)
 
   useEffect(()=>{
-    dispatch(fetchPokemon(currentPage));
+    dispatch(fetchPokemon(currentPage) as any);
   },[currentPage])
 
   const getPokemonByURL = (url:string) => {
-    dispatch(fetchPokemonByURL(url))
+    dispatch(fetchPokemonByURL(url) as any)
   }
 
 
@@ -40,7 +40,14 @@ const Pokedex = () => {
   return (
     <Container maxWidth="md" className={classes.pokedex_container}>
       {currentPokemon && <main className={classes.pokedex_card}>
-        <Paper elevation={3} style={{padding:'1rem', minWidth:'fit-contnet'}}>
+        <Paper elevation={3} style={{
+          padding:'1rem',
+          minWidth:'fit-contnet',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
+          }}>
           <Typography variant='h4' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
           <img src={currentPokemon.sprites.front_default} alt="" />
         </Paper>

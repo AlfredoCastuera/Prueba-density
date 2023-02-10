@@ -33,10 +33,11 @@ export default function BarChart({color, borderColor, stats}:BarChartProps) {
         borderWidth: 2,
       },
     },
+    maintainAspectRatio: false,	// Don't maintain w/h ratio
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false
       },
       title: {
         display: true,
