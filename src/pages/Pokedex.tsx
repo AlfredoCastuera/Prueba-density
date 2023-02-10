@@ -5,8 +5,16 @@ import { fetchPokemon, selectPokemon, selectNext, selectPrevious } from '../Redu
 import { fetchPokemonByURL, selectCurrentPokemon } from '../Redux/features/currentPokemonSlice'
 import { useNavigate } from 'react-router-dom'
 
+// Material UI components:
+import { List, ListItem, Button, Modal, Box, Container, Paper, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+
+// Custom classes
+import classes from './Pokedex.module.scss'
+
 
 const Pokedex = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const pokemon = useAppSelector(selectPokemon)
@@ -23,27 +31,24 @@ const Pokedex = () => {
     dispatch(fetchPokemon(currentPage));
   },[currentPage])
 
-  // const [currentPokemonURL, setCurrentPokemonURL] = useState<string|null>(null)
-  // useEffect(()=>{
-  //   if(currentPokemonURL) dispatch(fetchPokemonByURL(currentPokemonURL));
-  // },[currentPokemonURL]);
-
   const getPokemonByURL = (url:string) => {
     dispatch(fetchPokemonByURL(url))
   }
 
+
   console.log(pokemon);
   return (
-    <div style={
-      {
-        display:'flex',
-        gap: '2rem'
-      }
-    }>
-      <main>
-        <ul>
+    <Container maxWidth="md" className={classes.pokedex_container}>
+      {currentPokemon && <main className={classes.pokedex_card}>
+        <Paper elevation={3} style={{padding:'1rem', minWidth:'fit-contnet'}}>
+          <Typography variant='h4' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
+          <img src={currentPokemon.sprites.front_default} alt="" />
+        </Paper>
+      </main>}
+      <aside>
+        <List className={classes.pokedex_list}>
           {Array.isArray(pokemon) && pokemon.map((current)=>{
-            return <li key={current.url}
+            return <ListItem key={current.url}
             onClick={()=>{
               getPokemonByURL(current.url);
             }}
@@ -53,17 +58,24 @@ const Pokedex = () => {
                 navigate(`/pokedex/${current.name}`);
               }
             }
-            >{current.name}</li>
+            ><Button
+              variant="outlined"
+              size="small"
+              fullWidth
+              >
+                {current.name}
+              </Button>
+            </ListItem>
           })}
-        </ul>
-        {next && <button onClick={increment}>next</button>}
-        {previous && <button onClick={decrement}>previous</button>}
-      </main>
-      {currentPokemon && <aside>
-        <p>{JSON.stringify(currentPokemon.sprites.front_default)}</p>
-        <img src={currentPokemon.sprites.front_default} alt="" />
-      </aside>}
-    </div>
+        </List>
+      </aside>
+      <footer className={classes.pokedex_footer} >
+        <div className={classes.pokedex_footer_buttons}>
+          {previous && <Button className={classes.pokedex_footer_previous} variant="contained" onClick={decrement}>previous</Button>}
+          {next && <Button className={classes.pokedex_footer_next} variant="contained" onClick={increment}>next</Button>}
+        </div>
+      </footer>
+    </Container>
 
   )
 }
