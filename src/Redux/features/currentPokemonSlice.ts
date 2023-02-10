@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { getPokemon, getPokemonByName } from '../../services/pokemon'
+import { getPokemonByName } from '../../services/pokemon'
 import axios, { AxiosResponse } from 'axios'
 
 export interface CurrentPokemonState {
@@ -16,7 +15,7 @@ const initialState: CurrentPokemonState = {
   error: null ,
 }
 
-// create a thunk function for featching the pokemon arry from the API
+// create a thunk function for fetching the pokemon array from the API
 
 export const fetchPokemonByURL = createAsyncThunk('pokemon/fetchPokemonByURL', async (pokemonURL:string) => {
   const response = await axios.get(pokemonURL);

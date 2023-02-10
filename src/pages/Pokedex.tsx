@@ -22,7 +22,6 @@ const Pokedex = () => {
   const previous = useAppSelector(selectPrevious)
   const currentPokemon = useAppSelector(selectCurrentPokemon);
 
-
   const [currentPage,setCurrentPage] = useState<number>(1);
   const increment = () => setCurrentPage(prev => prev+1);
   const decrement = () => setCurrentPage(prev => prev-1)
@@ -35,21 +34,12 @@ const Pokedex = () => {
     dispatch(fetchPokemonByURL(url) as any)
   }
 
-
-  console.log(pokemon);
   return (
     <Container maxWidth="md" className={classes.pokedex_container}>
       {currentPokemon && <main className={classes.pokedex_card}>
-        <Paper elevation={3} style={{
-          padding:'1rem',
-          minWidth:'fit-contnet',
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-          }}>
+        <Paper elevation={3} className={classes.pokedex_paper}>
           <Typography variant='h4' color={theme.palette.primary.main}>{currentPokemon.name}</ Typography>
-          <img src={currentPokemon.sprites.front_default} alt="" />
+          <img src={currentPokemon.sprites.front_default} alt={currentPokemon.name} />
         </Paper>
       </main>}
       <aside>
@@ -61,7 +51,6 @@ const Pokedex = () => {
             }}
             onDoubleClick={
               ()=>{
-                console.log('quires navegar a otra pagina')
                 navigate(`/pokedex/${current.name}`);
               }
             }
@@ -83,7 +72,6 @@ const Pokedex = () => {
         </div>
       </footer>
     </Container>
-
   )
 }
 

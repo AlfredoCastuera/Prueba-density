@@ -1,18 +1,17 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import counterReducer from './features/counterSlice'
 import pokemonSlice from './features/pokemonSlice'
 import currentPokemonSlice from './features/currentPokemonSlice'
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 
+// use redux-persist library to avoid losing data on reload
 const persistConfig = {
   key: 'root',
   storage,
 }
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
   pokemon: pokemonSlice,
   currentPokemon: currentPokemonSlice,
 })

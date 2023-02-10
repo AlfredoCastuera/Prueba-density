@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import { getPokemon } from '../../services/pokemon'
 import { AxiosResponse } from 'axios'
-import { Action } from '@remix-run/router'
 
 export interface PokemonState {
   pokemon: any[],
@@ -23,7 +21,7 @@ const initialState: PokemonState = {
   count: null,
 }
 
-// create a thunk function for featching the pokemon arry from the API
+// create a thunk function for fetching the pokemon arry from the API
 
 export const fetchPokemon = createAsyncThunk('pokemon/fetchPokemon', async (currentPage:number=1) => {
   const response = await getPokemon(currentPage);
